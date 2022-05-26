@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
+      source = "hashicorp/azurerm"
 
     }
   }
@@ -11,7 +11,7 @@ terraform {
 
 locals {
   module_tag = {
-    "module_name" = basename(abspath(path.module))
+    "module_name"    = basename(abspath(path.module))
     "module_version" = "0.0.1"
   }
   tags = merge(var.tags, local.module_tag)
@@ -27,9 +27,9 @@ resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
   retention_in_days   = var.retention_in_days != "" ? var.retention_in_days : null
 
   lifecycle {
-      ignore_changes = [
-          tags
-      ]
+    ignore_changes = [
+      tags
+    ]
   }
 }
 

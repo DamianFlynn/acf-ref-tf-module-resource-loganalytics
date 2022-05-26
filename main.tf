@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
+      source = "hashicorp/azurerm"
       # configuration_aliases = [ azurerm.mgt ]
     }
   }
@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}  
+  features {}
   # alias           = "p-mgt"
   # subscription_id = var.MGT_SubscriptionId
 }
@@ -18,13 +18,13 @@ provider "azurerm" {
 
 locals {
   module_tag = {
-    "example_name" = basename(abspath(path.module))
+    "example_name"    = basename(abspath(path.module))
     "example_version" = "0.0.1"
   }
   tags = merge(var.tags, local.module_tag)
 
   log_analytics_solutions = {
-    ContainerInsights= {
+    ContainerInsights = {
       product   = "OMSGallery/Security"
       publisher = "Microsoft"
     }
@@ -39,7 +39,7 @@ locals {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "azurerm_resource_group" "p_mgt_logs" {
-  name     = var.resource_group_name
+  name = var.resource_group_name
   # provider = azurerm.mgt
   provider = azurerm
   location = var.location
@@ -47,14 +47,14 @@ resource "azurerm_resource_group" "p_mgt_logs" {
 }
 
 module "log_analytics_workspace" {
-  source                           = "./modules/loganalytics"
-  name                             = "${var.resource_group_name}-ws"
-  tags = local.tags
+  source = "./modules/loganalytics"
+  name   = "${var.resource_group_name}-ws"
+  tags   = local.tags
   providers = {
     # azurerm = azurerm.mgt
     azurerm = azurerm
   }
-  location                         = var.location
-  resource_group_name              = azurerm_resource_group.p_mgt_logs.name
-  solution_plan_map                = local.solution_plan_map
+  location            = var.location
+  resource_group_name = azurerm_resource_group.p_mgt_logs.name
+  solution_plan_map   = local.solution_plan_map
 }

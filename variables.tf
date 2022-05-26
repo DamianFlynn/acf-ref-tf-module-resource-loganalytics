@@ -1,12 +1,12 @@
 variable "location" {
   description = "(Optional) Specifies the location of the log analytics workspace, defaults to West Europe"
-  type = string
-  default = "westeurope"
+  type        = string
+  default     = "westeurope"
 }
 variable "resource_group_name" {
   description = "(Required) Specifies the resource group name"
-  type = string
-  default = "p-mgt-logs"
+  type        = string
+  default     = "p-mgt-logs"
 }
 
 
